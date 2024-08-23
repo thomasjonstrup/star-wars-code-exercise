@@ -4,9 +4,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="container lg:p-20 mx-auto flex flex-wrap items-center justify-between p-4">
+  <header class="container lg:p-6 mx-auto flex flex-wrap items-center justify-between p-4">
     <RouterLink to="/"><img src="/Logo.svg" alt="Star wars exercise logo" /></RouterLink>
-    <button class="bg-black text-white p-2 px-4 flex justify-center rounded">
+    <button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black">
       <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
         height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

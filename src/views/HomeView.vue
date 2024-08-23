@@ -26,20 +26,22 @@ const { data, error, isError, isPending, nextPage, prevPage, page, searchValue, 
         <option v-for="hairColorValue in hairColors" :key="hairColorValue">{{ hairColorValue }}</option>
       </select>
 
-      <button @click="resetFilters" class="bg-black text-white p-2 px-4 flex justify-center rounded">Reset
-        Filters</button>
+      <button @click="resetFilters"
+        class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black">
+        ResetFilters
+      </button>
     </div>
     <p v-if="isPending" class="text-center">Loading...</p>
     <p v-else-if="isError" class="text-center">An error has occurred: {{ error }}</p>
     <p v-else-if="!isPending && (!filtered || filtered && filtered.length === 0)" class="text-center">No items
     </p>
-    <div v-else-if="filtered" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="character in filtered" :key="character.name" class="block rounded shadow p-6 bg-light-grey">
+    <div v-else-if="filtered" class="grid grid-cols-1 auto-rows-fr md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="character in filtered" :key="character.name" class="flex flex-col rounded shadow p-6 bg-light-grey">
         <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {{ character.name }}
         </h2>
 
-        <div class="grid grid-cols-2 pb-2 gap-2">
+        <div class="grid grid-cols-2 pb-4 gap-2">
           <div>
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
               width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -77,7 +79,7 @@ const { data, error, isError, isPending, nextPage, prevPage, page, searchValue, 
         </div>
 
         <p class="pb-1">Films:</p>
-        <ul class="mb-4">
+        <ul class="flex-1 pb-2">
           <li v-for="film in character.films" :key="film">{{ film }}</li>
         </ul>
 
@@ -97,10 +99,10 @@ const { data, error, isError, isPending, nextPage, prevPage, page, searchValue, 
 
     <div class="flex gap-2 justify-center mt-6 items-center">
       <button @click="prevPage" :disabled="page <= 1" :class="page <= 1 ? 'cursor-not-allowed opacity-80' : ''"
-        class="bg-black text-white p-2 px-4 flex justify-center rounded">Prev</button>
+        class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black">Prev</button>
       <p>Current Page: {{ page }}</p>
       <button @click="nextPage" :disabled="!data?.next" :class="!data?.next ? 'cursor-not-allowed opacity-80' : ''"
-        class="bg-black text-white p-2 px-4 flex justify-center rounded">Next</button>
+        class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black">Next</button>
     </div>
   </section>
 
