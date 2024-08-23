@@ -9,6 +9,7 @@ export type StarWarsCharacter = {
   films: string[]
   species: string[]
   starShips: string[]
+  url: string
 }
 
 export type StarWarsFilm = {
@@ -26,6 +27,12 @@ export type StarWarsCharacterApiResult = {
   results: StarWarsCharacter[]
 } & BaseApiResult
 
+export type SingleStarWarsCharacterApiResult = {
+  results: StarWarsCharacter
+} & BaseApiResult
+
 export type StarWarsFilmApiResult = {
   results: StarWarsFilm[]
 } & BaseApiResult
+
+export type Filter = { value: string; type: 'search' | 'gender' | 'hairColor' }

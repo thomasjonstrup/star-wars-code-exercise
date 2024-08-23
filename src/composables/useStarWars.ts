@@ -1,12 +1,36 @@
 import { computed, ref, type Ref } from 'vue'
 import { useQuery, keepPreviousData } from '@tanstack/vue-query'
-import type { StarWarsCharacterApiResult, StarWarsFilmApiResult } from '@/utils/types'
+import type { Filter, StarWarsCharacterApiResult, StarWarsFilmApiResult } from '@/utils/types'
+import { useRoute, useRouter } from 'vue-router'
 
 const useStarWars = () => {
   const page = ref<number>(1)
   const searchValue = ref<string>('')
   const hairColor = ref<string>('')
   const gender = ref<string>('')
+
+  const route = useRoute()
+  const router = useRouter()
+
+  if (route.query.search) {
+    searchValue.value = route.query.search as string
+  }
+  if (route.query.hairColor) {
+    hairColor.value = route.query.hairColor as string
+  }
+  if (route.query.page) {
+    page.value = Number(route.query.page)
+  }
+
+  const updateFilter = (filter: string, value: string | number) => {
+    router.push({
+      name: route.name,
+      query: {
+        ...route.query,
+        [filter]: value
+      }
+    })
+  }
 
   const fetchStarWarsPeople = async (
     pageSelected: Ref<number>
@@ -23,35 +47,27 @@ const useStarWars = () => {
       queryKey: ['people', page],
       queryFn: () => fetchStarWarsPeople(page),
       placeholderData: keepPreviousData
-      /* 	initialData : {
-		count: 0,
-		next: null,
-		previous: null,
-		results: []
-	} */
     })
 
   const { data: dataFilms } = useQuery<StarWarsFilmApiResult>({
     queryKey: ['films', page],
     queryFn: () => fetchStarWarsFilms(),
     placeholderData: keepPreviousData
-    /* 	initialData : {
-		count: 0,
-		next: null,
-		previous: null,
-		results: []
-	} */
   })
 
   const prevPage = () => {
     if (data.value?.previous) {
-      page.value = Math.max(page.value - 1, 1)
+      const pageValue = Math.max(page.value - 1, 1)
+      page.value = pageValue
+      updateFilter('page', pageValue)
     }
   }
 
   const nextPage = () => {
     if (!isPlaceholderData.value && data.value?.next) {
-      page.value = page.value + 1
+      const pageValue = page.value + 1
+      page.value = pageValue
+      updateFilter('page', pageValue)
     }
   }
 
@@ -59,38 +75,64 @@ const useStarWars = () => {
     searchValue.value = ''
     gender.value = ''
     hairColor.value = ''
+
+    router.replace({ name: route.name })
   }
 
   const filtered = computed(() => {
-    const newList = data.value?.results.map((item) => {
-      const listOfFilms = item.films.map((film) => {
-        const texts = film.split('/').filter((item) => item)
+    const filteredList = data.value?.results.map((item) => {
+      const listOfFilms = item.films
+        .filter((item) => item)
+        .map((film) => {
+          const texts = film.split('/').filter((item) => item)
 
-        const text = texts[texts.length - 1]
+          const text = texts[texts.length - 1]
 
-        return dataFilms.value?.results.filter((item) => item.episode_id === Number(text))[0]?.title
-      })
+          return (
+            dataFilms.value?.results.filter((item) => item.episode_id === Number(text))[0]?.title ??
+            ''
+          )
+        })
       return { ...item, films: listOfFilms }
     })
 
-    if (searchValue.value) {
-      const lowerCasedSearchValue = searchValue.value
+    const activeFilters: Filter[] = []
 
-      return newList?.filter((item) => {
-        const lowerCasedValue = item.name.toLowerCase()
-        return lowerCasedValue.includes(lowerCasedSearchValue)
-      })
+    if (searchValue.value) {
+      activeFilters.push({ value: searchValue.value, type: 'search' })
     }
 
     if (gender.value) {
-      return newList?.filter((item) => item.gender.includes(gender.value))
+      activeFilters.push({ value: gender.value, type: 'gender' })
     }
-
     if (hairColor.value) {
-      return newList?.filter((item) => item.hair_color.includes(hairColor.value))
+      activeFilters.push({ value: hairColor.value, type: 'hairColor' })
     }
 
-    return newList
+    if (activeFilters.length > 0) {
+      return filteredList?.filter((filterItem) => {
+        const check = activeFilters.filter((activeFilterItem) => {
+          const lowerCasedSearchValue = activeFilterItem.value.toLowerCase()
+          const lowerCasedValue = filterItem.name.toLowerCase()
+
+          switch (activeFilterItem.type) {
+            case 'search':
+              return lowerCasedValue.includes(lowerCasedSearchValue)
+            case 'hairColor':
+              return activeFilterItem.value === filterItem.hair_color
+            case 'gender':
+              return activeFilterItem.value === filterItem.gender
+
+            default:
+              return true
+          }
+        })
+
+        return check.length > 0 && check.length === activeFilters.length
+      })
+    }
+
+    return filteredList
   })
 
   const genders = computed(() => {
@@ -126,7 +168,8 @@ const useStarWars = () => {
     gender,
     resetFilters,
     hairColor,
-    hairColors
+    hairColors,
+    updateFilter
   }
 }
 
