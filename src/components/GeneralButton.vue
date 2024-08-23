@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-	onClick: (payload: MouseEvent) => void,
+	onClick: (payload: MouseEvent) => void
 	disabled?: boolean
 }>()
 </script>
