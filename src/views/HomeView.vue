@@ -60,7 +60,7 @@ const {
 
     <div class="flex gap-2 justify-center mt-6 items-center">
       <GeneralButton v-bind:on-click="prevPage" v-bind:disabled="page <= 1">Prev</GeneralButton>
-      <p>Current Page: {{ page }}</p>
+      <p class="dark:text-white">Current Page: {{ page }}</p>
       <GeneralButton v-bind:on-click="nextPage" v-bind:disabled="!data?.next">Next</GeneralButton>
     </div>
   </section>
