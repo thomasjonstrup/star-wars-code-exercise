@@ -2,6 +2,10 @@
 import '@fontsource-variable/inter'
 import { RouterView } from 'vue-router'
 import StarWarsLogo from '@/components/illustrations/StarWarsLogo.vue'
+import IconMoon from '@/components/icons/IconMoon.vue';
+import IconSun from '@/components/icons/IconSun.vue';
+
+const activeTheme = localStorage.theme;
 
 // On page load or when changing themes, best to add inline in `head` to avoid FOUC
 const handleDarkModeLoad = () => {
@@ -35,13 +39,10 @@ handleDarkModeLoad()
 		<RouterLink to="/" alt="Star wars exercise logo">
 			<StarWarsLogo />
 		</RouterLink>
-		<button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black"
+		<button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black self-end"
 			@click="handleDarkModeChange">
-			<svg class="w-6 h-6 text-white dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-				width="24" height="24" fill="none" viewBox="0 0 24 24">
-				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-					d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
-			</svg>
+			<IconMoon v-if="activeTheme !== 'dark'" />
+			<IconSun v-else />
 		</button>
 	</header>
 

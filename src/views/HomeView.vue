@@ -35,23 +35,32 @@ const {
 
 	<section>
 		<div class="flex flex-col md:flex-row pb-6 gap-4 md:justify-between">
-			<input class="p-1 px-2 border rounded" v-model="searchValue" @input="(event) =>
+			<div class="flex flex-col">
+				<label for="search">Search</label>
+				<input class="p-1 px-2 border rounded" id="search" v-model="searchValue" @input="(event) =>
 					updateFilter('search', (event.target as HTMLInputElement).value ?? '')
-				" />
-			<select v-model="gender" class="border rounded p-1" @select="(event) =>
+					" />
+			</div>
+			<div class="flex flex-col">
+				<label for="gender-select">Gender</label>
+				<select v-model="gender" id="gender-select" class="border rounded p-1" @select="(event) =>
 					updateFilter('gender', (event.target as HTMLInputElement).value ?? '')
-				">
-				<option disabled value="">Select gender</option>
-				<option v-for="genderValue in genders" :key="genderValue">{{ genderValue }}</option>
-			</select>
-			<select v-model="hairColor" class="border rounded p-1" @select="(event) =>
+					">
+					<option disabled value="">Select gender</option>
+					<option v-for="genderValue in genders" :key="genderValue">{{ genderValue }}</option>
+				</select>
+			</div>
+			<div class="flex flex-col">
+				<label for="hairColor-select">Hair Color</label>
+				<select v-model="hairColor" class="border rounded p-1" @select="(event) =>
 					updateFilter('hairColor', (event.target as HTMLInputElement).value ?? '')
-				">
-				<option disabled value="">Select Hair color</option>
-				<option v-for="hairColorValue in hairColors" :key="hairColorValue">
-					{{ hairColorValue }}
-				</option>
-			</select>
+					">
+					<option disabled value="">Select Hair color</option>
+					<option v-for="hairColorValue in hairColors" :key="hairColorValue">
+						{{ hairColorValue }}
+					</option>
+				</select>
+			</div>
 
 			<GeneralButton v-bind:on-click="resetFilters">Reset Filters</GeneralButton>
 		</div>
