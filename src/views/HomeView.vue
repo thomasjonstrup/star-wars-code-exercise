@@ -62,7 +62,7 @@ const {
 				</select>
 			</div>
 
-			<GeneralButton v-bind:on-click="resetFilters">Reset Filters</GeneralButton>
+			<GeneralButton v-bind:on-click="resetFilters" class="self-end">Reset Filters</GeneralButton>
 		</div>
 		<p v-if="isPending" class="text-center">Loading...</p>
 		<p v-else-if="isError" class="text-center">An error has occurred: {{ error }}</p>

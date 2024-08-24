@@ -39,7 +39,7 @@ handleDarkModeLoad()
 		<RouterLink to="/" alt="Star wars exercise logo">
 			<StarWarsLogo />
 		</RouterLink>
-		<button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black self-end"
+		<button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black"
 			@click="handleDarkModeChange">
 			<IconMoon v-if="activeTheme !== 'dark'" />
 			<IconSun v-else />
