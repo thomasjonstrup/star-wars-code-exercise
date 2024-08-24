@@ -2,7 +2,7 @@
 import GeneralButton from '@/components/GeneralButton.vue'
 import CharacterCard from '@/components/CharacterCard.vue'
 
-import { useStarWars } from '@/composables/useStarWars'
+import { ages, useStarWars } from '@/composables/useStarWars'
 import HeroImage from '@/components/illustrations/HeroImage.vue'
 
 const {
@@ -13,6 +13,7 @@ const {
 	nextPage,
 	prevPage,
 	page,
+	age,
 	searchValue,
 	filtered,
 	gender,
@@ -43,7 +44,7 @@ const {
 			</div>
 			<div class="flex flex-col">
 				<label for="gender-select">Gender</label>
-				<select v-model="gender" id="gender-select" class="border rounded p-1" @select="(event) =>
+				<select v-model="gender" id="gender-select" class="border rounded p-1" @change="(event) =>
 					updateFilter('gender', (event.target as HTMLInputElement).value ?? '')
 					">
 					<option disabled value="">Select gender</option>
@@ -52,12 +53,23 @@ const {
 			</div>
 			<div class="flex flex-col">
 				<label for="hairColor-select">Hair Color</label>
-				<select v-model="hairColor" id="hairColor-select" class="border rounded p-1" @select="(event) =>
+				<select v-model="hairColor" id="hairColor-select" class="border rounded p-1" @change="(event) =>
 					updateFilter('hairColor', (event.target as HTMLInputElement).value ?? '')
 					">
 					<option disabled value="">Select Hair color</option>
 					<option v-for="hairColorValue in hairColors" :key="hairColorValue">
 						{{ hairColorValue }}
+					</option>
+				</select>
+			</div>
+			<div class="flex flex-col">
+				<label for="ages-select">Birth age</label>
+				<select v-model="age" id="ages-select" class="border rounded p-1" @change="(event) =>
+					updateFilter('age', (event.target as HTMLInputElement).value ?? '')
+					">
+					<option disabled value="">Select Birth ages</option>
+					<option v-for="(item, key, index) in ages" :key="index">
+						{{ key }}
 					</option>
 				</select>
 			</div>

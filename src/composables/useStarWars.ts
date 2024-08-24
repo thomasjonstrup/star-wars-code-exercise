@@ -2,12 +2,18 @@ import { computed, ref, type Ref } from 'vue'
 import { useQuery, keepPreviousData } from '@tanstack/vue-query'
 import type { Filter, StarWarsCharacterApiResult, StarWarsFilmApiResult } from '@/utils/types'
 import { useRoute, useRouter } from 'vue-router'
+import { valueBetween } from '@/utils/helpers'
+
+export const ages: { [key: string]: { ageStart: number; ageEnd: number } } = {
+	'20-40BBY': { ageStart: 20, ageEnd: 40 }
+}
 
 const useStarWars = () => {
 	const page = ref<number>(1)
 	const searchValue = ref<string>('')
 	const hairColor = ref<string>('')
 	const gender = ref<string>('')
+	const age = ref<string>('')
 
 	const route = useRoute()
 	const router = useRouter()
@@ -20,6 +26,9 @@ const useStarWars = () => {
 	}
 	if (route.query.page) {
 		page.value = Number(route.query.page)
+	}
+	if (route.query.age) {
+		age.value = route.query.age as string
 	}
 
 	const updateFilter = (filter: string, value: string | number) => {
@@ -75,6 +84,7 @@ const useStarWars = () => {
 		searchValue.value = ''
 		gender.value = ''
 		hairColor.value = ''
+		age.value = ''
 
 		router.replace({ name: route.name })
 	}
@@ -103,6 +113,10 @@ const useStarWars = () => {
 			activeFilters.push({ value: searchValue.value, type: 'search' })
 		}
 
+		if (age.value) {
+			activeFilters.push({ value: age.value, type: 'age' })
+		}
+
 		if (gender.value) {
 			activeFilters.push({ value: gender.value, type: 'gender' })
 		}
@@ -123,6 +137,14 @@ const useStarWars = () => {
 							return activeFilterItem.value === filterItem.hair_color
 						case 'gender':
 							return activeFilterItem.value === filterItem.gender
+						case 'age':
+							// eslint-disable-next-line no-case-declarations
+							const { ageStart = 0, ageEnd = 0 } = ages[activeFilterItem.value]
+							return valueBetween(
+								Number(filterItem.birth_year.replace('BBY', '')),
+								ageStart,
+								ageEnd
+							)
 
 						default:
 							return true
@@ -170,7 +192,8 @@ const useStarWars = () => {
 		resetFilters,
 		hairColor,
 		hairColors,
-		updateFilter
+		updateFilter,
+		age
 	}
 }
 

@@ -35,4 +35,4 @@ export type StarWarsFilmApiResult = {
 	results: StarWarsFilm[]
 } & BaseApiResult
 
-export type Filter = { value: string; type: 'search' | 'gender' | 'hairColor' }
+export type Filter = { value: string; type: 'search' | 'gender' | 'hairColor' | 'age' }
