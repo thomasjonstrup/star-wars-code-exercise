@@ -31,7 +31,7 @@ handleDarkModeLoad()
 </script>
 
 <template>
-	<header class="container lg:p-6 mx-auto flex flex-wrap items-center justify-between p-4">
+	<header class="container max-w-5xl lg:p-6 mx-auto flex flex-wrap items-center justify-between p-4">
 		<RouterLink to="/" alt="Star wars exercise logo">
 			<StarWarsLogo />
 		</RouterLink>
@@ -45,13 +45,15 @@ handleDarkModeLoad()
 		</button>
 	</header>
 
-	<main class="container p-6 lg:p-8 mx-auto flex-grow">
+	<main class="container max-w-5xl p-6 lg:p-8 mx-auto flex-grow">
 		<RouterView />
 	</main>
 
 	<footer class="mx-auto mt-0 w-full bg-black p-6 text-white dark:bg-gray-900">
-		<div class="flex max-w-screen-xl justify-between sm:text-left">
-			<p class="text-xs">2024 - by Thomas Jonstrup</p>
+		<div class="container mx-auto max-w-5xl">
+			<div class="flex  justify-between sm:text-left">
+				<p class="text-xs">2024 - by Thomas Jonstrup</p>
+			</div>
 		</div>
 	</footer>
 </template>
