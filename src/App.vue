@@ -36,11 +36,11 @@ handleDarkModeLoad()
 
 <template>
 	<header class="container max-w-5xl lg:p-6 mx-auto flex flex-wrap items-center justify-between p-4">
-		<RouterLink to="/" alt="Star wars exercise logo">
+		<RouterLink to="/" alt="Star wars exercise logo" aria-label="Home link">
 			<StarWarsLogo />
 		</RouterLink>
 		<button class="bg-black text-white p-2 px-4 flex justify-center rounded dark:bg-white dark:text-black"
-			@click="handleDarkModeChange">
+			@click="handleDarkModeChange" title="Change Theme mode">
 			<IconMoon v-if="activeTheme !== 'dark'" />
 			<IconSun v-else />
 		</button>

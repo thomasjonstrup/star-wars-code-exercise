@@ -52,7 +52,7 @@ const {
 			</div>
 			<div class="flex flex-col">
 				<label for="hairColor-select">Hair Color</label>
-				<select v-model="hairColor" class="border rounded p-1" @select="(event) =>
+				<select v-model="hairColor" id="hairColor-select" class="border rounded p-1" @select="(event) =>
 					updateFilter('hairColor', (event.target as HTMLInputElement).value ?? '')
 					">
 					<option disabled value="">Select Hair color</option>
